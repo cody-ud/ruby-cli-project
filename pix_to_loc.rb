@@ -5,12 +5,12 @@ require 'exif'
 require 'csv'
 require 'erb'
 
-class Pix2Cords < Thor
-  option :directory, :default => './**/*', :type => :string, :aliases => '-d'
+class PixToLoc < Thor
+  option :directory, :aliases => '-d', :default => './**/*', :type => :string, :desc => 'Directory to search for files, defaults to all files in the current directory. ex param: "./images/**/*"'
   option :output, :aliases => '-o', :type => :string, :desc => 'Name the output file, extension will be added based on provided extension option'
-  option :extension, :aliases => '-e', :type => :string, :enum => ['csv', 'html'], :desc => 'Select an output type [csv, html], defaults to csv'
+  option :extension, :aliases => '-e', :default => 'csv', :type => :string, :enum => ['csv', 'html'], :desc => 'Select an output type [csv, html], defaults to csv'
   option :hide_errors, :aliases => '-h', :default => true, :type => :boolean, :desc => 'Hide error messages from the console by default'
-  desc "extract FROM", "Extracts coordinates from all files in a directory (FROM)"
+  desc "extract FROM", "Extracts coordinates from all files in a directory and outputs a csv or html file (ex: ./images/**/* will search all files in the images directory)"
   def extract_coordinates
     # open a directory and loop through all the files
     coordinates = Dir.glob(options[:directory])
@@ -50,14 +50,7 @@ class Pix2Cords < Thor
   end
 
   def generate_output(data)
-    case options[:extension]
-    when 'csv'
-      output_csv(data)
-    when 'html'
-      output_html(data)
-    else
-      output_csv(data)
-    end
+    send("output_#{options[:extension]}", data)
   end
 
   def output_csv(data)
@@ -71,7 +64,7 @@ class Pix2Cords < Thor
   end
 
   def output_html(data)
-    template = File.read('./pix2coords_template.html.erb')
+    template = File.read('./pix_to_loc_template.html.erb')
     @data = data
     result = ERB.new(template).result(binding)
     File.write(generate_file_name, result)
@@ -81,9 +74,9 @@ class Pix2Cords < Thor
     if options[:output]
       "#{options[:output]}.#{options[:extension]}"
     else
-      "#{Time.now.strftime("%Y%m%d%H%M%S")}_pix2coords.#{options[:extension]}"
+      "#{Time.now.strftime("%Y%m%d%H%M%S")}_pixtoloc.#{options[:extension]}"
     end
   end
 end
 
-Pix2Cords.start(ARGV)
+PixToLoc.start(ARGV)
