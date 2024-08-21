@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pix 2 Coordinates</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @data.each do |item| %>
+                <tr>
+                    <td><%= item[:file] %></td>
+                    <td><%= item[:latitude] %></td>
+                    <td><%= item[:longitude] %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</body>
+</html>
+</table>
