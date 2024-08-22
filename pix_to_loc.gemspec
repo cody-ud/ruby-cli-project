@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.date        = '2016-04-08'
   s.summary     = 'Inhale images, exhale coordinates.'
   s.description = 'Convert coordinates from image files to lat long decimals and output the results in a table as a csv or html file.'
-  s.files       = Dir.glob('lib/**/*')
+  s.files       = Dir.glob('{lib,views}/**/*')
   s.executables << 'pix_to_loc'
   s.add_runtime_dependency 'exif', '~> 2.2.4'
   s.add_runtime_dependency 'csv', '~> 3.3.0'

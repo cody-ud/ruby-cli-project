@@ -60,7 +60,7 @@ class PixToLoc < Thor
   end
 
   def output_html(data)
-    template = File.read(File.join(__dir__, 'pix_to_loc_template.html.erb'))
+    template = File.read(File.join(__dir__, '../views/pix_to_loc_template.html.erb'))
     @data = data
     result = ERB.new(template).result(binding)
     File.write(generate_file_name, result)
