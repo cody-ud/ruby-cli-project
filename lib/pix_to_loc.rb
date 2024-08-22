@@ -1,4 +1,4 @@
-#! ./Users/codymiller/.asdf/shims ruby
+#!/usr/bin/env ruby
 
 require 'thor'
 require 'exif'
@@ -17,7 +17,7 @@ class PixToLoc < Thor
       .map { |filename| read_file(filename) }
       .compact # remove nil values
     
-    generate_output(coordinates)
+    send("output_#{options[:extension]}", coordinates)
   end
   default_command :extract_coordinates
 
@@ -49,10 +49,6 @@ class PixToLoc < Thor
     degrees + minutes / 60.0 + seconds / 3600.0
   end
 
-  def generate_output(data)
-    send("output_#{options[:extension]}", data)
-  end
-
   def output_csv(data)
     csvData = CSV.generate do |csv|
       csv << ['File Name', 'Latitude', 'Longitude']
@@ -64,7 +60,7 @@ class PixToLoc < Thor
   end
 
   def output_html(data)
-    template = File.read('./pix_to_loc_template.html.erb')
+    template = File.read(File.join(__dir__, 'pix_to_loc_template.html.erb'))
     @data = data
     result = ERB.new(template).result(binding)
     File.write(generate_file_name, result)

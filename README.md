@@ -1,5 +1,31 @@
 # ruby-cli-project
 
+## Solution Changes
+
+To use the `pix_to_loc` Ruby gem, you need to follow these steps:
+
+1. Install the `pix_to_loc` gem by adding it to your Gemfile or running `gem install pix_to_loc` in your terminal.
+
+2. Once the gem is installed, you can run the `pix_to_loc` command on the command line.
+
+The `pix_to_loc` command-line application allows you to:
+
+- Recursively read all images from a specified directory.
+- Extract the EXIF GPS data (longitude and latitude) from each image.
+- Write the image name and GPS coordinates to a CSV file.
+
+By default, the `pix_to_loc` utility scans the current directory. However, you can specify a different directory as an optional parameter.
+
+Additionally, you can choose to output the results in either CSV or HTML format by passing a parameter via the command line.
+
+You can call the `extract` command with multiple options.
+Examples:
+`pix_to_loc extract -o name_of_file`
+`pix_to_loc extract -e html`
+
+
+## Original Prompt Below
+
 This is our first week's project where we will bring together the skills we've practiced so far:
 
 - Ruby scripts
